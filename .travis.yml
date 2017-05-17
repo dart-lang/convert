@@ -15,5 +15,5 @@ dart_task:
   - dartfmt
 matrix:
   exclude:
-    - dart: 1.22.1
+    - dart: dev
       dart_task: dartfmt

@@ -1,3 +1,11 @@
+## 2.1.0
+
+* Add a `bytesFromStream()` function that converts a `Stream<List<int>>` into a
+  `Future<List<int>>`.
+
+* Add a `stringFromStream()` function that converts a `Stream<String>` into a
+  `Future<String>`.
+
 ## 2.0.1
 
 * `PercentEncoder` no longer encodes digits. This follows the specified

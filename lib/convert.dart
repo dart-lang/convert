@@ -6,6 +6,7 @@ library convert;
 
 export 'src/accumulator_sink.dart';
 export 'src/byte_accumulator_sink.dart';
+export 'src/functions.dart';
 export 'src/hex.dart';
 export 'src/percent.dart';
 export 'src/string_accumulator_sink.dart';

@@ -408,9 +408,9 @@ class _MapStack extends _Stack {
 
   _MapStack._(this.map, this.keys, this.index, _Stack parent) : super(parent);
 
-  String/*?*/ nextKey() => (index < keys.length) ? keys[index++] : null;
+  String /*?*/ nextKey() => (index < keys.length) ? keys[index++] : null;
 
-  String/*?*/ peekKey() => (index < keys.length) ? keys[index] : null;
+  String /*?*/ peekKey() => (index < keys.length) ? keys[index] : null;
 
   void moveNext() {
     index++;

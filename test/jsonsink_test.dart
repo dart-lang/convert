@@ -12,7 +12,7 @@ void main() {
   test("simple rebuild", () {
     var simple = jsonDecode(simpleJson);
     var builtSimple;
-    JsonReader.fromString(simpleJson).expectAnyValue(jsonObjectWriter((result){
+    JsonReader.fromString(simpleJson).expectAnyValue(jsonObjectWriter((result) {
       builtSimple = result;
     }));
     expect(simple, builtSimple);

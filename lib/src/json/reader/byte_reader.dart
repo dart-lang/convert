@@ -614,7 +614,7 @@ class JsonByteReader implements JsonReader<Uint8List> {
       case $lbrace:
         _index++;
         sink.startArray();
-        String/*?*/ key;
+        String /*?*/ key;
         while ((key = nextKey()) != null) {
           sink.addKey(key);
           expectAnyValue(sink);

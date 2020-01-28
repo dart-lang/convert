@@ -203,13 +203,13 @@ void testReader(JsonReader Function(String source) read) {
     g1.expectArray();
     expect(g1.hasNext(), true);
     g1.expectObject();
-    expect(g1.tryKey(["a","c"]), "a");
+    expect(g1.tryKey(["a", "c"]), "a");
     g1.skipAnyValue();
-    expect(g1.tryKey(["a","c"]), null);
+    expect(g1.tryKey(["a", "c"]), null);
     expect(g1.skipObjectEntry(), true);
-    expect(g1.tryKey(["a","c"]), "c");
+    expect(g1.tryKey(["a", "c"]), "c");
     g1.skipAnyValue();
-    expect(g1.tryKey(["a","c"]), null);
+    expect(g1.tryKey(["a", "c"]), null);
     expect(g1.skipObjectEntry(), false);
     expect(g1.hasNext(), true);
     expect(g1.expectInt(), 37);

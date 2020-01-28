@@ -8,5 +8,6 @@ export 'src/accumulator_sink.dart';
 export 'src/byte_accumulator_sink.dart';
 export 'src/hex.dart';
 export 'src/identity_codec.dart';
+export 'src/json.dart';
 export 'src/percent.dart';
 export 'src/string_accumulator_sink.dart';

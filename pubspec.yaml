@@ -1,11 +1,11 @@
 name: convert
-version: 2.1.2-dev
+version: 2.2.0
 description: Utilities for converting between data representations.
 author: Dart Team <misc@dartlang.org>
 homepage: https://github.com/dart-lang/convert
 
 environment:
-  sdk: '>=2.0.0 <3.0.0'
+  sdk: '>=2.5.0 <3.0.0'
 
 dependencies:
   charcode: ^1.1.0

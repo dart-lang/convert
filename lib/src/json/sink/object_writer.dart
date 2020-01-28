@@ -10,14 +10,14 @@ class JsonObjectWriter implements JsonSink {
   final void Function(dynamic) _result;
 
   /// Stack of objects or arrays being built, and pending [_key] values.
-  final List<Object/*?*/> _stack = [];
+  final List<Object /*?*/ > _stack = [];
 
   /// Last key added using [addKey].
   String _key;
 
   JsonObjectWriter(this._result);
 
-  void _value(Object/*?*/ value) {
+  void _value(Object /*?*/ value) {
     if (_stack.isEmpty) {
       _result(value);
       _key = null;

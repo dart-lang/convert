@@ -94,7 +94,8 @@ abstract class JsonSink {
 ///
 /// The returned sink is not reusable. After it has written a single JSON structure,
 /// it should not be used again.
-JsonSink jsonStringWriter(StringSink sink, {String indent, bool asciiOnly = false}) {
+JsonSink jsonStringWriter(StringSink sink,
+    {String indent, bool asciiOnly = false}) {
   if (indent == null) return JsonStringWriter(sink, asciiOnly: asciiOnly);
   return JsonPrettyStringWriter(sink, indent, asciiOnly: asciiOnly);
 }
@@ -105,4 +106,5 @@ JsonSink jsonStringWriter(StringSink sink, {String indent, bool asciiOnly = fals
 /// the [result] callback is called with the resulting object structure.
 ///
 /// When [result] is called, the returned sink is reset and can be reused.
-JsonSink jsonObjectWriter(void Function(dynamic) result) => JsonObjectWriter(result);
+JsonSink jsonObjectWriter(void Function(dynamic) result) =>
+    JsonObjectWriter(result);

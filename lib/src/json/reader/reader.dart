@@ -13,7 +13,7 @@ export "string_reader.dart" show StringSlice;
 
 /// A JSON reader which provides pull-based access to individual JSON tokens.
 ///
-/// The JSON reader is intended to scan JSON source code from start to end.
+/// The JSON reader is intended to scan JSON source text from start to end.
 /// It provides access to the next token, an individual value or the
 /// start of a JSON object or array. Inside an object or array, it allows
 /// iterating through the entries or elements, or skipping to the end.

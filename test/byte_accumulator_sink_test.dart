@@ -6,7 +6,7 @@ import 'package:convert/convert.dart';
 import 'package:test/test.dart';
 
 void main() {
-  /*late*/ ByteAccumulatorSink sink;
+  /*late*/ late ByteAccumulatorSink sink;
   setUp(() {
     sink = ByteAccumulatorSink();
   });

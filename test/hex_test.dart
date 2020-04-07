@@ -79,7 +79,7 @@ void main() {
     });
 
     group("with chunked conversion", () {
-      /*late*/ List<List<int>> results;
+      /*late*/ late List<List<int>> results;
       var sink;
       setUp(() {
         results = [];

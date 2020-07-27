@@ -81,7 +81,7 @@ class _PercentDecoderSink extends StringConversionSinkBase {
     }
 
     if (_lastDigit != null) {
-      buffer.add(_lastDigit!/*!*/ + digitForCodeUnit(codeUnits, start));
+      buffer.add(_lastDigit! + digitForCodeUnit(codeUnits, start));
       start++;
     }
 
@@ -146,7 +146,7 @@ class _PercentDecoderByteSink extends ByteConversionSinkBase {
     }
 
     if (_lastDigit != null) {
-      buffer.add(_lastDigit!/*!*/ + digitForCodeUnit(chunk, start));
+      buffer.add(_lastDigit! + digitForCodeUnit(chunk, start));
       start++;
     }
 

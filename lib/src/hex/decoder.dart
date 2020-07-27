@@ -66,7 +66,7 @@ class _HexDecoderSink extends StringConversionSinkBase {
     } else {
       var hexPairs = (end - start - 1) ~/ 2;
       bytes = Uint8List(1 + hexPairs);
-      bytes[0] = _lastDigit!/*!*/ + digitForCodeUnit(codeUnits, start);
+      bytes[0] = _lastDigit! + digitForCodeUnit(codeUnits, start);
       start++;
       bytesStart = 1;
     }
@@ -126,7 +126,7 @@ class _HexDecoderByteSink extends ByteConversionSinkBase {
     } else {
       var hexPairs = (end - start - 1) ~/ 2;
       bytes = Uint8List(1 + hexPairs);
-      bytes[0] = _lastDigit!/*!*/ + digitForCodeUnit(chunk, start);
+      bytes[0] = _lastDigit! + digitForCodeUnit(chunk, start);
       start++;
       bytesStart = 1;
     }

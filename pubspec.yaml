@@ -4,7 +4,7 @@ description: Utilities for converting between data representations.
 homepage: https://github.com/dart-lang/convert
 
 environment:
-  sdk: '>=2.10.0-0 <2.10.0'
+  sdk: '>=2.10.0-2.0.dev <2.10.0'
 
 dependencies:
   charcode: ^1.1.0

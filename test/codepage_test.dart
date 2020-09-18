@@ -41,21 +41,23 @@ void main() {
       }
       expect(() => cp.decode([0xfffd]), throwsA(isA<FormatException>()));
       // Decode works like operator[].
-      expect(cp.decode(bytes, allowInvalid: true), String.fromCharCodes([for (var i = 0; i < 256; i++) cp[i]]));
+      expect(cp.decode(bytes, allowInvalid: true),
+          String.fromCharCodes([for (var i = 0; i < 256; i++) cp[i]]));
     });
   }
   test("latin-2 roundtrip", () {
     // Data from http://www.columbia.edu/kermit/latin2.html
-    var latin2text = "\xa0Ą˘Ł¤ĽŚ§¨ŠŞŤŹ\xadŽŻ°ą˛ł´ľśˇ¸šşťź˝žżŔÁÂĂÄĹĆÇČÉĘËĚÍÎĎĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢßŕáâăäĺćçčéęëěíîďđńňóôőö÷řůúűüýţ˙";
+    var latin2text =
+        "\xa0Ą˘Ł¤ĽŚ§¨ŠŞŤŹ\xadŽŻ°ą˛ł´ľśˇ¸šşťź˝žżŔÁÂĂÄĹĆÇČÉĘËĚÍÎĎĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢßŕáâăäĺćçčéęëěíîďđńňóôőö÷řůúűüýţ˙";
     expect(latin2.decode(latin2.encode(latin2text)), latin2text);
   });
 
   test("latin-3 roundtrip", () {
     // Data from http://www.columbia.edu/kermit/latin3.html
-    var latin2text = "\xa0Ħ˘£¤\u{FFFD}Ĥ§¨İŞĞĴ\xad\u{FFFD}Ż°ħ²³´µĥ·¸ışğĵ½\u{FFFD}żÀÁÂ\u{FFFD}ÄĊĈÇÈÉÊËÌÍÎÏ\u{FFFD}ÑÒÓÔĠÖ×ĜÙÚÛÜŬŜßàáâ\u{FFFD}äċĉçèéêëìíîï\u{FFFD}ñòóôġö÷ĝùúûüŭŝ˙";
+    var latin2text =
+        "\xa0Ħ˘£¤\u{FFFD}Ĥ§¨İŞĞĴ\xad\u{FFFD}Ż°ħ²³´µĥ·¸ışğĵ½\u{FFFD}żÀÁÂ\u{FFFD}ÄĊĈÇÈÉÊËÌÍÎÏ\u{FFFD}ÑÒÓÔĠÖ×ĜÙÚÛÜŬŜßàáâ\u{FFFD}äċĉçèéêëìíîï\u{FFFD}ñòóôġö÷ĝùúûüŭŝ˙";
     var encoded = latin3.encode(latin2text, invalidCharacter: 0);
     var decoded = latin3.decode(encoded, allowInvalid: true);
     expect(decoded, latin2text);
   });
 }
-

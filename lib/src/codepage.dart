@@ -169,7 +169,7 @@ abstract class CodePage extends Encoding {
   CodePageEncoder get encoder;
 
   /// Encodes [input] using `encoder.convert`.
-  Uint8List encode(String input, {int/*?*/ invalidCharacter});
+  Uint8List encode(String input, {int /*?*/ invalidCharacter});
 
   /// Decodes [bytes] using `encoder.convert`.
   String decode(List<int> bytes, {bool allowInvalid = false});
@@ -241,7 +241,7 @@ class _CodePage extends Encoding implements CodePage {
   _CodePage.bmp(this.name, String characters)
       : decoder = _BmpCodePageDecoder(characters);
 
-  Uint8List encode(String input, {int/*?*/ invalidCharacter}) =>
+  Uint8List encode(String input, {int /*?*/ invalidCharacter}) =>
       encoder.convert(input, invalidCharacter: invalidCharacter);
 
   String decode(List<int> bytes, {bool allowInvalid = false}) =>
@@ -351,8 +351,8 @@ class _BmpCodePageDecoder extends Converter<List<int>, String>
   final String _characters;
   _BmpCodePageDecoder(String characters) : _characters = characters {
     if (characters.length != 256) {
-      throw ArgumentError.value(
-          characters, "characters", "Must contain 256 characters. Was ${characters.length}");
+      throw ArgumentError.value(characters, "characters",
+          "Must contain 256 characters. Was ${characters.length}");
     }
   }
 

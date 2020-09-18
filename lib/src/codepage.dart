@@ -2,86 +2,86 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:convert';
-import 'dart:typed_data';
+import "dart:convert";
+import "dart:typed_data";
 
 /// The ISO-8859-2/Latin-2 (Eastern European) code page.
 final CodePage latin2 =
-    _CodePage.bmp("latin-2", "$_ascii$_noControls$_top8859_2");
+    CodePage._bmp("latin-2", "$_ascii$_noControls$_top8859_2");
 
 /// The ISO-8859-3/Latin-3 (South European) code page.
 final CodePage latin3 =
-    _CodePage.bmp("latin-3", "$_ascii$_noControls$_top8859_3");
+    CodePage._bmp("latin-3", "$_ascii$_noControls$_top8859_3");
 
 /// The ISO-8859-4/Latin-4 (North European) code page.
 final CodePage latin4 =
-    _CodePage.bmp("latin-4", "$_ascii$_noControls$_top8859_4");
+    CodePage._bmp("latin-4", "$_ascii$_noControls$_top8859_4");
 
 /// The ISO-8859-5/Latin-Cyrillic code page.
 final CodePage latinCyrillic =
-    _CodePage.bmp("cyrillic", "$_ascii$_noControls$_top8859_5");
+    CodePage._bmp("cyrillic", "$_ascii$_noControls$_top8859_5");
 
 /// The ISO-8859-6/Latin-Arabic code page.
 final CodePage latinArabic =
-    _CodePage.bmp("arabic", "$_ascii$_noControls$_top8859_6");
+    CodePage._bmp("arabic", "$_ascii$_noControls$_top8859_6");
 
 /// The ISO-8859-7/Latin-Greek code page.
 final CodePage latinGreek =
-    _CodePage.bmp("greek", "$_ascii$_noControls$_top8859_7");
+    CodePage._bmp("greek", "$_ascii$_noControls$_top8859_7");
 
 /// The ISO-8859-7/Latin-Hebrew code page.
 final CodePage latinHebrew =
-    _CodePage.bmp("hebrew", "$_ascii$_noControls$_top8859_8");
+    CodePage._bmp("hebrew", "$_ascii$_noControls$_top8859_8");
 
 /// The ISO-8859-9/Latin-5 (Turkish) code page.
 final CodePage latin5 =
-    _CodePage.bmp("latin-5", "$_ascii$_noControls$_top8859_9");
+    CodePage._bmp("latin-5", "$_ascii$_noControls$_top8859_9");
 
 /// The ISO-8859-10/Latin-6 (Nordic) code page.
 final CodePage latin6 =
-    _CodePage.bmp("latin-6", "$_ascii$_noControls$_top8859_10");
+    CodePage._bmp("latin-6", "$_ascii$_noControls$_top8859_10");
 
 /// The ISO-8859-11/Latin-Thai code page.
 final CodePage latinThai =
-    _CodePage.bmp("tis620", "$_ascii$_noControls$_top8859_11");
+    CodePage._bmp("tis620", "$_ascii$_noControls$_top8859_11");
 
 /// The ISO-8859-13/Latin-6 (Baltic Rim) code page.
 final CodePage latin7 =
-    _CodePage.bmp("latin-7", "$_ascii$_noControls$_top8859_13");
+    CodePage._bmp("latin-7", "$_ascii$_noControls$_top8859_13");
 
 /// The ISO-8859-14/Latin-8 (Celtic) code page.
 final CodePage latin8 =
-    _CodePage.bmp("latin-8", "$_ascii$_noControls$_top8859_14");
+    CodePage._bmp("latin-8", "$_ascii$_noControls$_top8859_14");
 
 /// The ISO-8859-15/Latin-9 (Western European revised) code page.
 final CodePage latin9 =
-    _CodePage.bmp("latin-9", "$_ascii$_noControls$_top8859_15");
+    CodePage._bmp("latin-9", "$_ascii$_noControls$_top8859_15");
 
 /// The ISO-8859-16/Latin-10 (South Eastern European) code page.
 final CodePage latin10 =
-    _CodePage.bmp("latin-10", "$_ascii$_noControls$_top8859_16");
+    CodePage._bmp("latin-10", "$_ascii$_noControls$_top8859_16");
 
-// Characters in ISO-8859-2 above the ASCII and top control characters.
+/// Characters in ISO-8859-2 above the ASCII and top control characters.
 const _top8859_2 = "\xa0Ą˘Ł¤ĽŚ§¨ŠŞŤŹ\xadŽŻ°ą˛ł´ľśˇ¸šşťź˝žż"
     "ŔÁÂĂÄĹĆÇČÉĘËĚÍÎĎĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢß"
     "ŕáâăäĺćçčéęëěíîďđńňóôőö÷řůúűüýţ˙";
 
-// Characters in ISO-8859-3 above the ASCII and top control characters.
+/// Characters in ISO-8859-3 above the ASCII and top control characters.
 const _top8859_3 = "\xa0Ħ˘£\uFFFD¤Ĥ§¨İŞĞĴ\xad\uFFFDŻ°ħ²³´µĥ·¸ışğĵ½\uFFFDż"
     "ÀÁÂ\uFFFDÄĊĈÇÈÉÊËÌÍÎÏ\uFFFDÑÒÓÔĠÖ×ĜÙÚÛÜŬŜß"
     "àáâ\uFFFDäċĉçèéêëìíîï\uFFFDñòóôġö÷ĝùúûüŭŝ˙";
 
-// Characters in ISO-8859-4 above the ASCII and top control characters.
+/// Characters in ISO-8859-4 above the ASCII and top control characters.
 const _top8859_4 = "\xa0ĄĸŖ¤ĨĻ§¨ŠĒĢŦ\xadŽ¯°ą˛ŗ´ĩļˇ¸šēģŧŊžŋ"
     "ĀÁÂÃÄÅÆĮČÉĘËĖÍÎĪĐŅŌĶÔÕÖ×ØŲÚÛÜŨŪß"
     "āáâãäåæįčéęëėíîīđņōķôõö÷øųúûüũū˙";
 
-// Characters in ISO-8859-5 above the ASCII and top control characters.
+/// Characters in ISO-8859-5 above the ASCII and top control characters.
 const _top8859_5 = "\xa0ЁЂЃЄЅІЇЈЉЊЋЌ\xadЎЏАБВГДЕЖЗИЙКЛМНОП"
     "РСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмноп"
     "рстуфхцчшщъыьэюя№ёђѓєѕіїјљњћќ§ўџ";
 
-// Characters in ISO-8859-6 above the ASCII and top control characters.
+/// Characters in ISO-8859-6 above the ASCII and top control characters.
 const _top8859_6 = "\xa0\uFFFD\uFFFD\uFFFD¤\uFFFD\uFFFD\uFFFD"
     "\uFFFD\uFFFD\uFFFD\uFFFD\u060c\xad\uFFFD\uFFFD"
     "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
@@ -95,12 +95,12 @@ const _top8859_6 = "\xa0\uFFFD\uFFFD\uFFFD¤\uFFFD\uFFFD\uFFFD"
     "\u0650\u0651\u0652\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
     "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD";
 
-// Characters in ISO-8859-7 above the ASCII and top control characters.
+/// Characters in ISO-8859-7 above the ASCII and top control characters.
 const _top8859_7 = "\xa0‘’£€₯¦§¨©ͺ«¬\xad\uFFFD―°±²³΄΅Ά·ΈΉΊ»Ό½ΎΏ"
     "ΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡ\uFFFDΣΤΥΦΧΨΩΪΫάέήί"
     "ΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώ\uFFFD";
 
-// Characters in ISO-8859-8 above the ASCII and top control characters.
+/// Characters in ISO-8859-8 above the ASCII and top control characters.
 const _top8859_8 = "\xa0\uFFFD¢£¤¥¦§¨©×«¬\xad®¯°±²³´µ¶·¸¹÷»¼½¾\uFFFD"
     "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
     "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
@@ -111,37 +111,37 @@ const _top8859_8 = "\xa0\uFFFD¢£¤¥¦§¨©×«¬\xad®¯°±²³´µ¶·¸¹
     "\u05e0\u05e1\u05e2\u05e3\u05e4\u05e5\u05e6\u05e7"
     "\u05e8\u05e9\u05ea\uFFFD\uFFFD\u200e\u200f\uFFFD";
 
-// Characters in ISO-8859-9 above the ASCII and top control characters.
+/// Characters in ISO-8859-9 above the ASCII and top control characters.
 const _top8859_9 = "\xa0¡¢£¤¥¦§¨©ª«¬\xad®¯°±²³´µ¶·¸¹º»¼½¾¿"
     "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß"
     "àáâãäåæçèéêëìíîïğñòóôõö÷øùúûüışÿ";
 
-// Characters in ISO-8859-10 above the ASCII and top control characters.
+/// Characters in ISO-8859-10 above the ASCII and top control characters.
 const _top8859_10 = "\xa0ĄĒĢĪĨĶ§ĻĐŠŦŽ\xadŪŊ°ąēģīĩķ·ļđšŧž―ūŋ"
     "ĀÁÂÃÄÅÆĮČÉĘËĖÍÎÏÐŅŌÓÔÕÖŨØŲÚÛÜÝÞß"
     "āáâãäåæįčéęëėíîïðņōóôõöũøųúûüýþĸ";
 
-// Characters in ISO-8859-11 above the ASCII and top control characters.
+/// Characters in ISO-8859-11 above the ASCII and top control characters.
 const _top8859_11 = "\xa0กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟ"
     "ภมยรฤลฦวศษสหฬอฮฯะัาำิีึืฺุู\uFFFD\uFFFD\uFFFD\uFFFD฿"
     "เแโใไๅๆ็่้๊๋์ํ๎๏๐๑๒๓๔๕๖๗๘๙๚๛\uFFFD\uFFFD\uFFFD\uFFFD";
 
-// Characters in ISO-8859-13 above the ASCII and top control characters.
+/// Characters in ISO-8859-13 above the ASCII and top control characters.
 const _top8859_13 = "\xa0”¢£¤„¦§Ø©Ŗ«¬\xad®Æ°±²³“µ¶·ø¹ŗ»¼½¾æ"
     "ĄĮĀĆÄÅĘĒČÉŹĖĢĶĪĻŠŃŅÓŌÕÖ×ŲŁŚŪÜŻŽß"
     "ąįāćäåęēčéźėģķīļšńņóōõö÷ųłśūüżž’";
 
-// Characters in ISO-8859-14 above the ASCII and top control characters.
+/// Characters in ISO-8859-14 above the ASCII and top control characters.
 const _top8859_14 = "\xa0Ḃḃ£ĊċḊ§Ẁ©ẂḋỲ\xad®ŸḞḟĠġṀṁ¶ṖẁṗẃṠỳẄẅṡ"
     "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏŴÑÒÓÔÕÖṪØÙÚÛÜÝŶß"
     "àáâãäåæçèéêëìíîïŵñòóôõöṫøùúûüýŷÿ";
 
-// Characters in ISO-8859-15 above the ASCII and top control characters.
+/// Characters in ISO-8859-15 above the ASCII and top control characters.
 const _top8859_15 = "\xa0¡¢£€¥Š§š©ª«¬\xad®¯°±²³Žµ¶·ž¹º»ŒœŸ¿"
     "ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß"
     "àáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ";
 
-// Characters in ISO-8859-16 above the ASCII and top control characters.
+/// Characters in ISO-8859-16 above the ASCII and top control characters.
 const _top8859_16 = "\xa0ĄąŁ€„Š§š©Ș«Ź\xadźŻ°±ČłŽ”¶·žčș»ŒœŸż"
     "ÀÁÂĂÄĆÆÇÈÉÊËÌÍÎÏĐŃÒÓÔŐÖŚŰÙÚÛÜĘȚß"
     "àáâăäćæçèéêëìíîïđńòóôőöśűùúûüęțÿ";
@@ -151,7 +151,7 @@ const _noControls = "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
     "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
     "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD";
 
-// ASCII characters without control characters. Shared by many code pages.
+/// ASCII characters without control characters. Shared by many code pages.
 const _ascii = "$_noControls"
     r""" !"#$%&'()*+,-./0123456789:;<=>?"""
     r"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_"
@@ -161,18 +161,10 @@ const _ascii = "$_noControls"
 ///
 /// A code page is a way to map bytes to character.
 /// As such, it can only represent 256 different characters.
-abstract class CodePage extends Encoding {
-  /// Decoding converter for code page.
-  CodePageDecoder get decoder;
-
-  /// Encoding converter for code page.
-  CodePageEncoder get encoder;
-
-  /// Encodes [input] using `encoder.convert`.
-  Uint8List encode(String input, {int /*?*/ invalidCharacter});
-
-  /// Decodes [bytes] using `encoder.convert`.
-  String decode(List<int> bytes, {bool allowInvalid = false});
+class CodePage extends Encoding {
+  final CodePageDecoder decoder;
+  final String name;
+  CodePageEncoder? _encoder;
 
   /// Creates a code page with the given name and characters.
   ///
@@ -184,39 +176,7 @@ abstract class CodePage extends Encoding {
   /// [characters].
   ///
   /// The name is used by [Encoding.name].
-  factory CodePage(String name, String characters) = _CodePage.bmp;
-
-  /// The character associated with a particular byte in this code page.
-  ///
-  /// The [byte] must be in the range 0..255.
-  /// The returned value should be a Unicode scalar value
-  /// (a non-surrogate code point).
-  ///
-  /// If a code page does not have a defined character for a particular
-  /// byte, it should return the Unicode invalid character (U+FFFD)
-  /// instad.
-  int operator [](int byte);
-}
-
-/// A mapping between bytes and characters.
-///
-/// A code page is a way to map bytes to character.
-/// As such, it can only represent 256 different characters.
-class _CodePage extends Encoding implements CodePage {
-  final CodePageDecoder decoder;
-  final String name;
-  _CodePageEncoder _encoder;
-
-  /// The character associtated with a particular byte in this code page.
-  ///
-  /// The [byte] must be in the range 0..255.
-  /// The returned value should be a Unicode scalar value
-  /// (a non-surrogate code point).
-  ///
-  /// If a code page does not have a defined character for a particular
-  /// byte, it should return the Unicode invalid character (U+FFFD)
-  /// instad.
-  int operator [](int byte) => decoder._char(byte);
+  factory CodePage(String name, String characters) = CodePage._general;
 
   /// Creates a code page with the characters of [characters].
   ///
@@ -224,7 +184,7 @@ class _CodePage extends Encoding implements CodePage {
   ///
   /// A U+FFFD (invalid character) entry in [character] means that the
   /// corresponding byte does not have a definition in this code page.
-  _CodePage(this.name, String characters)
+  CodePage._general(this.name, String characters)
       : decoder = _createDecoder(characters);
 
   /// Creates a code page with characters from the basic multilingual plane.
@@ -238,12 +198,25 @@ class _CodePage extends Encoding implements CodePage {
   ///
   /// A U+FFFD (invalid character) entry in [character] means that the
   /// corresponding byte does not have a definition in this code page.
-  _CodePage.bmp(this.name, String characters)
+  CodePage._bmp(this.name, String characters)
       : decoder = _BmpCodePageDecoder(characters);
 
-  Uint8List encode(String input, {int /*?*/ invalidCharacter}) =>
+  /// The character associated with a particular byte in this code page.
+  ///
+  /// The [byte] must be in the range 0..255.
+  /// The returned value should be a Unicode scalar value
+  /// (a non-surrogate code point).
+  ///
+  /// If a code page does not have a defined character for a particular
+  /// byte, it should return the Unicode invalid character (U+FFFD)
+  /// instad.
+  int operator [](int byte) => decoder._char(byte);
+
+  /// Encodes [input] using `encoder.convert`.
+  Uint8List encode(String input, {int? invalidCharacter}) =>
       encoder.convert(input, invalidCharacter: invalidCharacter);
 
+  /// Decodes [bytes] using `encoder.convert`.
   String decode(List<int> bytes, {bool allowInvalid = false}) =>
       decoder.convert(bytes, allowInvalid: allowInvalid);
 
@@ -266,7 +239,7 @@ abstract class CodePageDecoder implements Converter<List<int>, String> {
   /// If not true, the bytes must be calid and defined characters.
   String convert(List<int> input, {bool allowInvalid = false});
 
-  _CodePageEncoder _createEncoder();
+  CodePageEncoder _createEncoder();
   int _char(int byte);
 }
 
@@ -301,8 +274,7 @@ CodePageDecoder _createDecoder(String characters) {
 class _NonBmpCodePageDecoder extends Converter<List<int>, String>
     implements CodePageDecoder {
   final Uint32List _characters;
-  _NonBmpCodePageDecoder(String characters)
-      : _characters = _buildMapping(characters);
+  _NonBmpCodePageDecoder(String characters) : this._(_buildMapping(characters));
   _NonBmpCodePageDecoder._(this._characters);
 
   int _char(int byte) => _characters[byte];
@@ -324,7 +296,7 @@ class _NonBmpCodePageDecoder extends Converter<List<int>, String>
     return result;
   }
 
-  _CodePageEncoder _createEncoder() {
+  CodePageEncoder _createEncoder() {
     var result = <int, int>{};
     for (var i = 0; i < 256; i++) {
       var char = _characters[i];
@@ -332,7 +304,7 @@ class _NonBmpCodePageDecoder extends Converter<List<int>, String>
         result[char] = i;
       }
     }
-    return _CodePageEncoder._(result);
+    return CodePageEncoder._(result);
   }
 
   String convert(List<int> input, {bool allowInvalid = false}) {
@@ -358,11 +330,6 @@ class _BmpCodePageDecoder extends Converter<List<int>, String>
 
   int _char(int byte) => _characters.codeUnitAt(byte);
 
-  /// Decodes bytes into characters using this code page.
-  ///
-  /// If [allowInvalid] is true, non-byte values or bytes which do not
-  /// correspond to a character in the current code page are
-  /// converted to U+FFFD (the Unicode invalid character).
   String convert(List<int> bytes, {bool allowInvalid = false}) {
     if (allowInvalid) return _convertAllowInvalid(bytes);
     var count = bytes.length;
@@ -397,42 +364,20 @@ class _BmpCodePageDecoder extends Converter<List<int>, String>
     return String.fromCharCodes(codeUnits);
   }
 
-  _CodePageEncoder _createEncoder() => _CodePageEncoder.bmp(_characters);
+  CodePageEncoder _createEncoder() => CodePageEncoder._bmp(_characters);
 }
 
 /// Encoder for a code page.
 ///
 /// Converts a string into bytes where each byte represents that character
 /// according to the code page definition.
-abstract class CodePageEncoder implements Converter<String, List<int>> {
-  /// Encodes [input] using the code page.
-  ///
-  /// Any character in [input] which is not defined by the code page
-  /// is replaced by [invalidCharacter], and if such a character occurs,
-  /// an [invalidCharacter] must be supplied, and it must be a valid
-  /// byte value.
-  Uint8List convert(String input, {int /*?*/ invalidCharacter});
-}
-
-class _CodePageEncoder extends Converter<String, List<int>>
-    implements CodePageEncoder {
+class CodePageEncoder extends Converter<String, List<int>> {
   final Map<int, int> _encoding;
-  _CodePageEncoder(String characters) : _encoding = _createEncoding(characters);
 
-  _CodePageEncoder.bmp(String characters)
+  CodePageEncoder._bmp(String characters)
       : _encoding = _createBmpEncoding(characters);
 
-  _CodePageEncoder._(this._encoding);
-
-  static Map<int, int> _createEncoding(String characters) {
-    var result = <int, int>{};
-    var i = 0;
-    for (var char in characters.runes) {
-      if (char != 0xFFFD) result[char] = i;
-      i++;
-    }
-    return result;
-  }
+  CodePageEncoder._(this._encoding);
 
   static Map<int, int> _createBmpEncoding(String characters) {
     var encoding = <int, int>{};
@@ -451,7 +396,7 @@ class _CodePageEncoder extends Converter<String, List<int>>
   /// If [input] contains characters that are not available
   /// in this code page, they are replaced by the [invalidCharacter] byte,
   /// and then [invalidCharacter] must have been supplied.
-  Uint8List convert(String input, {int /*?*/ invalidCharacter}) {
+  Uint8List convert(String input, {int? invalidCharacter}) {
     if (invalidCharacter != null) {
       RangeError.checkValueInInterval(
           invalidCharacter, 0, 255, "invalidCharacter");

@@ -6,7 +6,7 @@ library convert.percent.encoder;
 
 import 'dart:convert';
 
-import 'charcodes.dart';
+import '../charcodes.dart';
 
 /// The canonical instance of [PercentEncoder].
 const percentEncoder = PercentEncoder._();

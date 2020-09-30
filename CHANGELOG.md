@@ -1,8 +1,4 @@
-## 2.2.0-nullsafety.1-dev
-
-* Allow the 2.10 stable and 2.11.0 dev SDKs.
-
-## 2.2.0-nullsafety
+## 2.2.0-nullsafety-dev
 
 Pre-release for the null safety migration of this package.
 

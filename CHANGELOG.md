@@ -1,4 +1,4 @@
-## 2.2.0-nullsafety
+## 2.2.0-nullsafety-dev
 
 Pre-release for the null safety migration of this package.
 
@@ -8,6 +8,8 @@ reserve the right to release it as a 3.0.0 breaking change.
 This release will be pinned to only allow pre-release sdk versions starting from
 2.10.0-2.0.dev, which is the first version where this package will appear in the
 null safety allow list.
+
+ * Added `CodePage` class for single-byte `Encoding` implementations.
 
 ## 2.1.1
 

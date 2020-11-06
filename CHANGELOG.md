@@ -1,4 +1,4 @@
-## 3.0.0-nullsafety-dev
+## 3.0.0-nullsafety
 
 Pre-release for the null safety migration of this package.
 

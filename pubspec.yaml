@@ -13,4 +13,3 @@ dev_dependencies:
   charcode: ^1.2.0-nullsafety.3
   pedantic: ^1.10.0-nullsafety.3
   test: ^1.16.0-nullsafety.9
-  

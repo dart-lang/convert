@@ -2,10 +2,6 @@
 
 Pre-release for the null safety migration of this package.
 
-This release will be pinned to only allow pre-release sdk versions starting from
-2.12.0-0, which is the first version where this package will appear in the
-null safety allow list.
-
  * Added `CodePage` class for single-byte `Encoding` implementations.
 
 ## 2.1.1

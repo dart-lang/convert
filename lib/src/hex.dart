@@ -22,7 +22,9 @@ const hex = HexCodec._();
 ///
 /// This should be used via the [hex] field.
 class HexCodec extends Codec<List<int>, String> {
-  HexEncoder get encoder => hexEncoder;
+  @override
+    HexEncoder get encoder => hexEncoder;
+  @override
   HexDecoder get decoder => hexDecoder;
 
   const HexCodec._();

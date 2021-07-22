@@ -6,7 +6,7 @@ import 'package:convert/convert.dart';
 import 'package:test/test.dart';
 
 void main() {
-  var sink;
+  late AccumulatorSink sink;
   setUp(() {
     sink = AccumulatorSink<int>();
   });

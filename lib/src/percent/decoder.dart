@@ -28,19 +28,21 @@ const _lastPercent = -1;
 class PercentDecoder extends Converter<String, List<int>> {
   const PercentDecoder._();
 
-  List<int> convert(String string) {
+  @override
+    List<int> convert(String input) {
     var buffer = Uint8Buffer();
-    var lastDigit = _decode(string.codeUnits, 0, string.length, buffer);
+    var lastDigit = _decode(input.codeUnits, 0, input.length, buffer);
 
     if (lastDigit != null) {
       throw FormatException(
-          "Input ended with incomplete encoded byte.", string, string.length);
+          "Input ended with incomplete encoded byte.", input, input.length);
     }
 
     return buffer.buffer.asUint8List(0, buffer.length);
   }
 
-  StringConversionSink startChunkedConversion(Sink<List<int>> sink) =>
+  @override
+    StringConversionSink startChunkedConversion(Sink<List<int>> sink) =>
       _PercentDecoderSink(sink);
 }
 
@@ -60,7 +62,8 @@ class _PercentDecoderSink extends StringConversionSinkBase {
 
   _PercentDecoderSink(this._sink);
 
-  void addSlice(String string, int start, int end, bool isLast) {
+  @override
+    void addSlice(String string, int start, int end, bool isLast) {
     RangeError.checkValidRange(start, end, string.length);
 
     if (start == end) {
@@ -91,10 +94,12 @@ class _PercentDecoderSink extends StringConversionSinkBase {
     if (isLast) _close(string, end);
   }
 
-  ByteConversionSink asUtf8Sink(bool allowMalformed) =>
+  @override
+    ByteConversionSink asUtf8Sink(bool allowMalformed) =>
       _PercentDecoderByteSink(_sink);
 
-  void close() => _close();
+  @override
+    void close() => _close();
 
   /// Like [close], but includes [string] and [index] in the [FormatException]
   /// if one is thrown.
@@ -124,9 +129,11 @@ class _PercentDecoderByteSink extends ByteConversionSinkBase {
 
   _PercentDecoderByteSink(this._sink);
 
-  void add(List<int> chunk) => addSlice(chunk, 0, chunk.length, false);
+  @override
+    void add(List<int> chunk) => addSlice(chunk, 0, chunk.length, false);
 
-  void addSlice(List<int> chunk, int start, int end, bool isLast) {
+  @override
+    void addSlice(List<int> chunk, int start, int end, bool isLast) {
     RangeError.checkValidRange(start, end, chunk.length);
 
     if (start == end) {
@@ -156,6 +163,7 @@ class _PercentDecoderByteSink extends ByteConversionSinkBase {
     if (isLast) _close(chunk, end);
   }
 
+  @override
   void close() => _close();
 
   /// Like [close], but includes [chunk] and [index] in the [FormatException]

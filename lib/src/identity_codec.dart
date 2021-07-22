@@ -3,7 +3,7 @@ import 'dart:convert';
 class _IdentityConverter<T> extends Converter<T, T> {
   _IdentityConverter();
   @override
-    T convert(T input) => input;
+  T convert(T input) => input;
 }
 
 /// A [Codec] that performs the identity conversion (changing nothing) in both
@@ -19,9 +19,9 @@ class IdentityCodec<T> extends Codec<T, T> {
   const IdentityCodec();
 
   @override
-    Converter<T, T> get decoder => _IdentityConverter<T>();
+  Converter<T, T> get decoder => _IdentityConverter<T>();
   @override
-    Converter<T, T> get encoder => _IdentityConverter<T>();
+  Converter<T, T> get encoder => _IdentityConverter<T>();
 
   /// Fuse with an other codec.
   ///

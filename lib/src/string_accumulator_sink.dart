@@ -24,7 +24,7 @@ class StringAccumulatorSink extends StringConversionSinkBase {
   }
 
   @override
-    void add(String str) {
+  void add(String str) {
     if (_isClosed) {
       throw StateError("Can't add to a closed sink.");
     }
@@ -33,7 +33,7 @@ class StringAccumulatorSink extends StringConversionSinkBase {
   }
 
   @override
-    void addSlice(String str, int start, int end, bool isLast) {
+  void addSlice(String str, int start, int end, bool isLast) {
     if (_isClosed) {
       throw StateError("Can't add to a closed sink.");
     }

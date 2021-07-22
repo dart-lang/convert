@@ -32,7 +32,7 @@ const percent = PercentCodec._();
 /// [Uri.encodeQueryComponent].
 class PercentCodec extends Codec<List<int>, String> {
   @override
-    PercentEncoder get encoder => percentEncoder;
+  PercentEncoder get encoder => percentEncoder;
   @override
   PercentDecoder get decoder => percentDecoder;
 

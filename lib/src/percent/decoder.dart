@@ -29,7 +29,7 @@ class PercentDecoder extends Converter<String, List<int>> {
   const PercentDecoder._();
 
   @override
-    List<int> convert(String input) {
+  List<int> convert(String input) {
     var buffer = Uint8Buffer();
     var lastDigit = _decode(input.codeUnits, 0, input.length, buffer);
 
@@ -42,7 +42,7 @@ class PercentDecoder extends Converter<String, List<int>> {
   }
 
   @override
-    StringConversionSink startChunkedConversion(Sink<List<int>> sink) =>
+  StringConversionSink startChunkedConversion(Sink<List<int>> sink) =>
       _PercentDecoderSink(sink);
 }
 
@@ -63,7 +63,7 @@ class _PercentDecoderSink extends StringConversionSinkBase {
   _PercentDecoderSink(this._sink);
 
   @override
-    void addSlice(String string, int start, int end, bool isLast) {
+  void addSlice(String string, int start, int end, bool isLast) {
     RangeError.checkValidRange(start, end, string.length);
 
     if (start == end) {
@@ -95,11 +95,11 @@ class _PercentDecoderSink extends StringConversionSinkBase {
   }
 
   @override
-    ByteConversionSink asUtf8Sink(bool allowMalformed) =>
+  ByteConversionSink asUtf8Sink(bool allowMalformed) =>
       _PercentDecoderByteSink(_sink);
 
   @override
-    void close() => _close();
+  void close() => _close();
 
   /// Like [close], but includes [string] and [index] in the [FormatException]
   /// if one is thrown.
@@ -130,10 +130,10 @@ class _PercentDecoderByteSink extends ByteConversionSinkBase {
   _PercentDecoderByteSink(this._sink);
 
   @override
-    void add(List<int> chunk) => addSlice(chunk, 0, chunk.length, false);
+  void add(List<int> chunk) => addSlice(chunk, 0, chunk.length, false);
 
   @override
-    void addSlice(List<int> chunk, int start, int end, bool isLast) {
+  void addSlice(List<int> chunk, int start, int end, bool isLast) {
     RangeError.checkValidRange(start, end, chunk.length);
 
     if (start == end) {

@@ -1,3 +1,7 @@
+## 3.0.1
+
+* Fix bug in `CodePage` class. See issue [#47](https://github.com/dart-lang/convert/issues/47).
+
 ## 3.0.0
 
 * Stable null safety release.

@@ -3,103 +3,22 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:charcode/ascii.dart';
 import 'package:convert/convert.dart';
 import 'package:test/test.dart';
 
 void main() {
   group("encoder", () {
     test("doesn't percent-encode unreserved characters", () {
-      expect(
-          percent.encode([
-            $a,
-            $b,
-            $c,
-            $d,
-            $e,
-            $f,
-            $g,
-            $h,
-            $i,
-            $j,
-            $k,
-            $l,
-            $m,
-            $n,
-            $o,
-            $p,
-            $q,
-            $r,
-            $s,
-            $t,
-            $u,
-            $v,
-            $w,
-            $x,
-            $y,
-            $z,
-            $A,
-            $B,
-            $C,
-            $D,
-            $E,
-            $F,
-            $G,
-            $H,
-            $I,
-            $J,
-            $K,
-            $L,
-            $M,
-            $N,
-            $O,
-            $P,
-            $Q,
-            $R,
-            $S,
-            $T,
-            $U,
-            $V,
-            $W,
-            $X,
-            $Y,
-            $Z,
-            $0,
-            $1,
-            $2,
-            $3,
-            $4,
-            $5,
-            $6,
-            $7,
-            $8,
-            $9,
-            $dash,
-            $dot,
-            $underscore,
-            $tilde
-          ]),
-          equals(
-              "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~"));
+      var safeChars = "abcdefghijklmnopqrstuvwxyz"
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+          "0123456789-._~";
+      expect(percent.encode([...safeChars.codeUnits]), equals(safeChars));
     });
 
     test("percent-encodes reserved ASCII characters", () {
-      expect(
-          percent.encode([
-            $space,
-            $backquote,
-            $open_brace,
-            $at,
-            $open_bracket,
-            $comma,
-            $division,
-            $caret,
-            $close_brace,
-            $del,
-            $nul,
-            $percent
-          ]),
+      expect(percent.encode([..." `{@[,/^}\x7f\x00%".codeUnits]),
           equals("%20%60%7B%40%5B%2C%2F%5E%7D%7F%00%25"));
     });
 
@@ -108,8 +27,7 @@ void main() {
     });
 
     test("mixes encoded and unencoded characters", () {
-      expect(
-          percent.encode([$a, $plus, $b, $equal, 0x80]), equals("a%2Bb%3D%80"));
+      expect(percent.encode([..."a+b=\x80".codeUnits]), equals("a%2Bb%3D%80"));
     });
 
     group("with chunked conversion", () {
@@ -119,7 +37,7 @@ void main() {
         controller.stream.listen(results.add);
         var sink = percent.encoder.startChunkedConversion(controller.sink);
 
-        sink.add([$a, $plus, $b, $equal, 0x80]);
+        sink.add([..."a+b=\x80".codeUnits]);
         expect(results, equals(["a%2Bb%3D%80"]));
 
         sink.add([0x00, 0x01, 0xfe, 0xff]);
@@ -154,40 +72,26 @@ void main() {
 
   group("decoder", () {
     test("converts percent-encoded strings to byte arrays", () {
-      expect(percent.decode("a%2Bb%3D%801"),
-          equals([$a, $plus, $b, $equal, 0x80, $1]));
+      expect(
+          percent.decode("a%2Bb%3D%801"), equals([..."a+b=\x801".codeUnits]));
     });
 
     test("supports lowercase letters", () {
-      expect(
-          percent.decode("a%2bb%3d%80"), equals([$a, $plus, $b, $equal, 0x80]));
+      expect(percent.decode("a%2bb%3d%80"), equals([..."a+b=\x80".codeUnits]));
     });
 
     test("supports more aggressive encoding", () {
-      expect(percent.decode("%61%2E%5A"), equals([$a, $dot, $Z]));
+      expect(percent.decode("%61%2E%5A"), equals([..."a.Z".codeUnits]));
     });
 
     test("supports less aggressive encoding", () {
-      expect(
-          percent.decode(" `{@[,/^}\x7F\x00"),
-          equals([
-            $space,
-            $backquote,
-            $open_brace,
-            $at,
-            $open_bracket,
-            $comma,
-            $division,
-            $caret,
-            $close_brace,
-            $del,
-            $nul
-          ]));
+      var chars = " `{@[,/^}\x7F\x00";
+      expect(percent.decode(chars), equals([...chars.codeUnits]));
     });
 
     group("with chunked conversion", () {
       late List<List<int>> results;
-      var sink;
+      late StringConversionSink sink;
       setUp(() {
         results = [];
         var controller = StreamController<List<int>>(sync: true);
@@ -200,14 +104,14 @@ void main() {
         expect(
             results,
             equals([
-              [$a, $plus, $b, $equal, 0x80, $1]
+              [..."a+b=\x801".codeUnits]
             ]));
 
         sink.add("%00%01%FE%FF");
         expect(
             results,
             equals([
-              [$a, $plus, $b, $equal, 0x80, $1],
+              [..."a+b=\x801".codeUnits],
               [0x00, 0x01, 0xfe, 0xff]
             ]));
       });
@@ -217,31 +121,31 @@ void main() {
         expect(
             results,
             equals([
-              [$a, $b]
+              [..."ab".codeUnits]
             ]));
 
         sink.add("2");
         expect(
             results,
             equals([
-              [$a, $b]
+              [..."ab".codeUnits]
             ]));
 
         sink.add("0cd%2");
         expect(
             results,
             equals([
-              [$a, $b],
-              [$space, $c, $d]
+              [..."ab".codeUnits],
+              [..." cd".codeUnits]
             ]));
 
         sink.add("0");
         expect(
             results,
             equals(([
-              [$a, $b],
-              [$space, $c, $d],
-              [$space]
+              [..."ab".codeUnits],
+              [..." cd".codeUnits],
+              [..." ".codeUnits]
             ])));
       });
 
@@ -275,7 +179,7 @@ void main() {
         expect(
             results,
             equals([
-              [$a, $b]
+              [..."ab".codeUnits]
             ]));
         expect(() => sink.close(), throwsFormatException);
       });
@@ -285,7 +189,7 @@ void main() {
         expect(
             results,
             equals([
-              [$a, $b]
+              [..."ab".codeUnits]
             ]));
         expect(() => sink.close(), throwsFormatException);
       });
@@ -295,7 +199,7 @@ void main() {
         expect(
             results,
             equals([
-              [$a, $b]
+              [..."ab".codeUnits]
             ]));
 
         expect(() => sink.addSlice("ab%", 0, 3, true), throwsFormatException);
@@ -306,7 +210,7 @@ void main() {
         expect(
             results,
             equals([
-              [$a, $b]
+              [..."ab".codeUnits]
             ]));
 
         expect(() => sink.addSlice("ab%2", 0, 3, true), throwsFormatException);

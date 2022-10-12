@@ -25,6 +25,14 @@
 /// string, in this case `YYYY kiwi MM` is the same format string as
 /// `YYYY------MM`. When encoding a [DateTime], the non-format characters are in
 /// the output verbatim.
+///
+/// Note: this class differs from
+/// [DateFormat](https://pub.dev/documentation/intl/latest/intl/DateFormat-class.html)
+/// from [package:intl](https://pub.dev/packages/intl) in that here, the format
+/// character count is interpreted literally. For example, using the format
+/// string `YYY` to decode the string `996` would result in the same [DateTime]
+/// as calling `DateTime(996)`, and the same format string used to encode the
+/// `DateTime(1996)` would output only the three digits 996.
 class FixedDateTimeFormatter {
   static const _powersOfTen = [1, 10, 100, 1000, 10000, 100000];
   static const _validFormatCharacters = [

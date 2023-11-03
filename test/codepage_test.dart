@@ -114,11 +114,11 @@ void main() {
       expect(cp.decode([1, 0, 3, 2, 0, 5, 4]), 'BADCAFE');
     });
 
-    test('undecode byte', () {
+    test('undecodable byte', () {
       expect(() => cp.decode([6, 1, 255]), throwsFormatException);
     });
 
-    test('undecode byte with allowInvalid', () {
+    test('undecodable byte with allowInvalid', () {
       expect(cp.decode([6, 1, 255], allowInvalid: true), '\u{FFFD}B\u{FFFD}');
     });
 

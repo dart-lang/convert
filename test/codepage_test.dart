@@ -127,13 +127,30 @@ void main() {
       final outputSink = StringConversionSink.withCallback(
           (accumulated) => decodedString = accumulated);
       final inputSink = cp.decoder.startChunkedConversion(outputSink);
+
       inputSink
         ..add([1])
         ..add([0])
-        ..add([3]);
-
-      inputSink.close();
+        ..add([3])
+        ..close();
       expect(decodedString, 'BAD');
+    });
+
+    test('chunked conversion - byte conversion sink', () {
+      late final String decodedString;
+      final outputSink = StringConversionSink.withCallback(
+          (accumulated) => decodedString = accumulated);
+      final bytes = [1, 0, 3, 2, 0, 5, 4];
+
+      final inputSink = cp.decoder.startChunkedConversion(outputSink);
+      expect(inputSink, isA<ByteConversionSink>());
+
+      (inputSink as ByteConversionSink)
+        ..addSlice(bytes, 1, 3, false)
+        ..addSlice(bytes, 4, 5, false)
+        ..addSlice(bytes, 6, 6, true);
+
+      expect(decodedString, 'ADA');
     });
   });
 }

@@ -279,21 +279,15 @@ CodePageDecoder _createDecoder(String characters) {
 
 /// An input [ByteConversionSink] for decoders where each input byte can be be
 /// considered independantly.
-class _CodePageDecoderSink implements ByteConversionSink {
+class _CodePageDecoderSink extends ByteConversionSink {
   final Sink<String> _output;
-  final String Function(List<int> input) _convert;
+  final Converter<List<int>, String> _decoder;
 
-  _CodePageDecoderSink(this._output, this._convert);
+  _CodePageDecoderSink(this._output, this._decoder);
 
   @override
   void add(List<int> chunk) {
-    _output.add(_convert(chunk));
-  }
-
-  @override
-  void addSlice(List<int> chunk, int start, int end, bool isLast) {
-    add(chunk.sublist(start, end));
-    if (isLast) close();
+    _output.add(_decoder.convert(chunk));
   }
 
   @override
@@ -354,7 +348,7 @@ class _NonBmpCodePageDecoder extends Converter<List<int>, String>
 
   @override
   Sink<List<int>> startChunkedConversion(Sink<String> sink) =>
-      _CodePageDecoderSink(sink, convert);
+      _CodePageDecoderSink(sink, this);
 }
 
 class _BmpCodePageDecoder extends Converter<List<int>, String>
@@ -391,7 +385,7 @@ class _BmpCodePageDecoder extends Converter<List<int>, String>
 
   @override
   Sink<List<int>> startChunkedConversion(Sink<String> sink) =>
-      _CodePageDecoderSink(sink, convert);
+      _CodePageDecoderSink(sink, this);
 
   String _convertAllowInvalid(List<int> bytes) {
     var count = bytes.length;

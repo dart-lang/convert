@@ -93,9 +93,7 @@ void main() {
   });
 
   group('Custom code page', () {
-    late final CodePage cp;
-
-    setUpAll(() => cp = CodePage('custom', "ABCDEF${"\uFFFD" * 250}"));
+    late final cp = CodePage('custom', "ABCDEF${"\uFFFD" * 250}");
 
     test('simple encode', () {
       var result = cp.encode('BADCAFE');

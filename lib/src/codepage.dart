@@ -6,12 +6,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 /// The ISO-8859-2/Latin-2 (Eastern European) code page.
-final CodePage latin2 =
-    CodePage._bmp('latin-2', '$_ascii$_noControls$_top8859_2');
+///
+/// See https://unicode.org/Public/MAPPINGS/ISO8859/8859-2.TXT
+final CodePage latin2 = CodePage._bmp('latin-2', '$_ascii$_top8859_2');
 
 /// The ISO-8859-3/Latin-3 (South European) code page.
-final CodePage latin3 =
-    CodePage._bmp('latin-3', '$_ascii$_noControls$_top8859_3');
+///
+/// See https://unicode.org/Public/MAPPINGS/ISO8859/8859-3.TXT
+final CodePage latin3 = CodePage._bmp('latin-3', '$_ascii$_top8859_3');
 
 /// The ISO-8859-4/Latin-4 (North European) code page.
 final CodePage latin4 =
@@ -62,14 +64,13 @@ final CodePage latin10 =
     CodePage._bmp('latin-10', '$_ascii$_noControls$_top8859_16');
 
 /// Characters in ISO-8859-2 above the ASCII and top control characters.
-const _top8859_2 = '\xa0Ą˘Ł¤ĽŚ§¨ŠŞŤŹ\xadŽŻ°ą˛ł´ľśˇ¸šşťź˝žż'
-    'ŔÁÂĂÄĹĆÇČÉĘËĚÍÎĎĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢß'
-    'ŕáâăäĺćçčéęëěíîďđńňóôőö÷řůúűüýţ˙';
+const _top8859_2 = '$_top8859ControlsĄ˘Ł¤ĽŚ§¨ŠŞŤŹ\xadŽŻ°ą˛ł´ľśˇ¸šşťź˝žżŔÁÂĂÄĹĆÇ'
+    'ČÉĘËĚÍÎĎĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢßŕáâăäĺćçčéęëěíîďđńňóôőö÷řůúűüýţ˙';
 
 /// Characters in ISO-8859-3 above the ASCII and top control characters.
-const _top8859_3 = '\xa0Ħ˘£\uFFFD¤Ĥ§¨İŞĞĴ\xad\uFFFDŻ°ħ²³´µĥ·¸ışğĵ½\uFFFDż'
-    'ÀÁÂ\uFFFDÄĊĈÇÈÉÊËÌÍÎÏ\uFFFDÑÒÓÔĠÖ×ĜÙÚÛÜŬŜß'
-    'àáâ\uFFFDäċĉçèéêëìíîï\uFFFDñòóôġö÷ĝùúûüŭŝ˙';
+const _top8859_3 = '$_top8859ControlsĦ˘£¤\ufffdĤ§¨İŞĞĴ\xad\ufffdŻ°ħ²³´µĥ·¸ışğĵ½'
+    '\ufffdżÀÁÂ\ufffdÄĊĈÇÈÉÊËÌÍÎÏ\ufffdÑÒÓÔĠÖ×ĜÙÚÛÜŬŜßàáâ\ufffdäċĉçèéêëìíîï'
+    '\ufffdñòóôġö÷ĝùúûüŭŝ˙';
 
 /// Characters in ISO-8859-4 above the ASCII and top control characters.
 const _top8859_4 = '\xa0ĄĸŖ¤ĨĻ§¨ŠĒĢŦ\xadŽ¯°ą˛ŗ´ĩļˇ¸šēģŧŊžŋ'
@@ -146,17 +147,21 @@ const _top8859_16 = '\xa0ĄąŁ€„Š§š©Ș«Ź\xadźŻ°±ČłŽ”¶·žč
     'ÀÁÂĂÄĆÆÇÈÉÊËÌÍÎÏĐŃÒÓÔŐÖŚŰÙÚÛÜĘȚß'
     'àáâăäćæçèéêëìíîïđńòóôőöśűùúûüęțÿ';
 
+const _top8859Controls = '\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c'
+    '\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e'
+    '\x9f\xa0';
+
 const _noControls = '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
     '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
     '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
     '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD';
 
 /// ASCII characters without control characters. Shared by many code pages.
-const _ascii = '$_noControls'
-    // ignore: missing_whitespace_between_adjacent_strings
-    r""" !"#$%&'()*+,-./0123456789:;<=>?"""
-    r'@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_'
-    '`abcdefghijklmnopqrstuvwxyz{|}~\uFFFD';
+// ignore: missing_whitespace_between_adjacent_strings
+const _ascii = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e'
+    '\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x20'
+    r"""!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcd"""
+    'efghijklmnopqrstuvwxyz{|}~\x7f';
 
 /// A mapping between bytes and characters.
 ///

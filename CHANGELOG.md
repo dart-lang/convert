@@ -3,6 +3,8 @@
 - Require Dart 3.0
 - Add chunked decoding support (`startChunkedConversion`) for `CodePage`
   encodings.
+- Update the ISO-8859 mappings to the latest version published by the Unicode
+  consortium.
 
 ## 3.1.1
 

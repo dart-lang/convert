@@ -5,163 +5,105 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'codepages/unicode_iso8859.g.dart';
+
 /// The ISO-8859-2/Latin-2 (Eastern European) code page.
 ///
-/// See https://unicode.org/Public/MAPPINGS/ISO8859/8859-2.TXT
-final CodePage latin2 = CodePage._bmp('latin-2', '$_ascii$_top8859_2');
+/// This is the authoritative mapping between ISO-8859-2 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-2.TXT).
+final CodePage latin2 = CodePage._bmp('latin-2', iso8859_2);
 
 /// The ISO-8859-3/Latin-3 (South European) code page.
 ///
-/// See https://unicode.org/Public/MAPPINGS/ISO8859/8859-3.TXT
-final CodePage latin3 = CodePage._bmp('latin-3', '$_ascii$_top8859_3');
+/// This is the authoritative mapping between ISO-8859-3 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-3.TXT).
+final CodePage latin3 = CodePage._bmp('latin-3', iso8859_3);
 
 /// The ISO-8859-4/Latin-4 (North European) code page.
-final CodePage latin4 =
-    CodePage._bmp('latin-4', '$_ascii$_noControls$_top8859_4');
+///
+/// This is the authoritative mapping between ISO-8859-4 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-4.TXT).
+final CodePage latin4 = CodePage._bmp('latin-4', iso8859_4);
 
 /// The ISO-8859-5/Latin-Cyrillic code page.
-final CodePage latinCyrillic =
-    CodePage._bmp('cyrillic', '$_ascii$_noControls$_top8859_5');
+///
+/// This is the authoritative mapping between ISO-8859-5 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-5.TXT).
+final CodePage latinCyrillic = CodePage._bmp('cyrillic', iso8859_5);
 
 /// The ISO-8859-6/Latin-Arabic code page.
-final CodePage latinArabic =
-    CodePage._bmp('arabic', '$_ascii$_noControls$_top8859_6');
+///
+/// This is the authoritative mapping between ISO-8859-6 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-6.TXT).
+final CodePage latinArabic = CodePage._bmp('arabic', iso8859_6);
 
 /// The ISO-8859-7/Latin-Greek code page.
-final CodePage latinGreek =
-    CodePage._bmp('greek', '$_ascii$_noControls$_top8859_7');
+///
+/// This is the authoritative mapping between ISO-8859-7 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-7.TXT).
+final CodePage latinGreek = CodePage._bmp('greek', iso8859_7);
 
 /// The ISO-8859-7/Latin-Hebrew code page.
-final CodePage latinHebrew =
-    CodePage._bmp('hebrew', '$_ascii$_noControls$_top8859_8');
+///
+/// This is the authoritative mapping between ISO-8859-8 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-8.TXT).
+final CodePage latinHebrew = CodePage._bmp('hebrew', iso8859_8);
 
 /// The ISO-8859-9/Latin-5 (Turkish) code page.
-final CodePage latin5 =
-    CodePage._bmp('latin-5', '$_ascii$_noControls$_top8859_9');
+///
+/// This is the authoritative mapping between ISO-8859-9 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-9.TXT).
+final CodePage latin5 = CodePage._bmp('latin-5', iso8859_9);
 
 /// The ISO-8859-10/Latin-6 (Nordic) code page.
-final CodePage latin6 =
-    CodePage._bmp('latin-6', '$_ascii$_noControls$_top8859_10');
+///
+/// This is the authoritative mapping between ISO-8859-10 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-10.TXT).
+final CodePage latin6 = CodePage._bmp('latin-6', iso8859_10);
 
 /// The ISO-8859-11/Latin-Thai code page.
-final CodePage latinThai =
-    CodePage._bmp('tis620', '$_ascii$_noControls$_top8859_11');
+///
+/// This is the authoritative mapping between ISO-8859-11 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-11.TXT).
+final CodePage latinThai = CodePage._bmp('tis620', iso8859_11);
 
 /// The ISO-8859-13/Latin-6 (Baltic Rim) code page.
-final CodePage latin7 =
-    CodePage._bmp('latin-7', '$_ascii$_noControls$_top8859_13');
+///
+/// This is the authoritative mapping between ISO-8859-13 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-13.TXT).
+final CodePage latin7 = CodePage._bmp('latin-7', iso8859_13);
 
 /// The ISO-8859-14/Latin-8 (Celtic) code page.
-final CodePage latin8 =
-    CodePage._bmp('latin-8', '$_ascii$_noControls$_top8859_14');
+///
+/// This is the authoritative mapping between ISO-8859-14 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-14.TXT).
+final CodePage latin8 = CodePage._bmp('latin-8', iso8859_14);
 
 /// The ISO-8859-15/Latin-9 (Western European revised) code page.
-final CodePage latin9 =
-    CodePage._bmp('latin-9', '$_ascii$_noControls$_top8859_15');
+///
+/// This is the authoritative mapping between ISO-8859-15 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-15.TXT).
+final CodePage latin9 = CodePage._bmp('latin-9', iso8859_15);
 
 /// The ISO-8859-16/Latin-10 (South Eastern European) code page.
-final CodePage latin10 =
-    CodePage._bmp('latin-10', '$_ascii$_noControls$_top8859_16');
-
-/// Characters in ISO-8859-2 above the ASCII and top control characters.
-const _top8859_2 = '$_top8859ControlsĄ˘Ł¤ĽŚ§¨ŠŞŤŹ\xadŽŻ°ą˛ł´ľśˇ¸šşťź˝žżŔÁÂĂÄĹĆÇ'
-    'ČÉĘËĚÍÎĎĐŃŇÓÔŐÖ×ŘŮÚŰÜÝŢßŕáâăäĺćçčéęëěíîďđńňóôőö÷řůúűüýţ˙';
-
-/// Characters in ISO-8859-3 above the ASCII and top control characters.
-const _top8859_3 = '$_top8859ControlsĦ˘£¤\ufffdĤ§¨İŞĞĴ\xad\ufffdŻ°ħ²³´µĥ·¸ışğĵ½'
-    '\ufffdżÀÁÂ\ufffdÄĊĈÇÈÉÊËÌÍÎÏ\ufffdÑÒÓÔĠÖ×ĜÙÚÛÜŬŜßàáâ\ufffdäċĉçèéêëìíîï'
-    '\ufffdñòóôġö÷ĝùúûüŭŝ˙';
-
-/// Characters in ISO-8859-4 above the ASCII and top control characters.
-const _top8859_4 = '\xa0ĄĸŖ¤ĨĻ§¨ŠĒĢŦ\xadŽ¯°ą˛ŗ´ĩļˇ¸šēģŧŊžŋ'
-    'ĀÁÂÃÄÅÆĮČÉĘËĖÍÎĪĐŅŌĶÔÕÖ×ØŲÚÛÜŨŪß'
-    'āáâãäåæįčéęëėíîīđņōķôõö÷øųúûüũū˙';
-
-/// Characters in ISO-8859-5 above the ASCII and top control characters.
-const _top8859_5 = '\xa0ЁЂЃЄЅІЇЈЉЊЋЌ\xadЎЏАБВГДЕЖЗИЙКЛМНОП'
-    'РСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмноп'
-    'рстуфхцчшщъыьэюя№ёђѓєѕіїјљњћќ§ўџ';
-
-/// Characters in ISO-8859-6 above the ASCII and top control characters.
-const _top8859_6 = '\xa0\uFFFD\uFFFD\uFFFD¤\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\u060c\xad\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\u061b\uFFFD\uFFFD\uFFFD\u061f'
-    '\uFFFD\u0621\u0622\u0623\u0624\u0625\u0626\u0627'
-    '\u0628\u0629\u062a\u062b\u062c\u062d\u062e\u062f'
-    '\u0630\u0631\u0632\u0633\u0634\u0635\u0636\u0637'
-    '\u0638\u0639\u063a\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\u0640\u0641\u0642\u0643\u0644\u0645\u0646\u0647'
-    '\u0648\u0649\u064a\u064b\u064c\u064d\u064e\u064f'
-    '\u0650\u0651\u0652\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD';
-
-/// Characters in ISO-8859-7 above the ASCII and top control characters.
-const _top8859_7 = '\xa0‘’£€₯¦§¨©ͺ«¬\xad\uFFFD―°±²³΄΅Ά·ΈΉΊ»Ό½ΎΏ'
-    'ΐΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡ\uFFFDΣΤΥΦΧΨΩΪΫάέήί'
-    'ΰαβγδεζηθικλμνξοπρςστυφχψωϊϋόύώ\uFFFD';
-
-/// Characters in ISO-8859-8 above the ASCII and top control characters.
-const _top8859_8 = '\xa0\uFFFD¢£¤¥¦§¨©×«¬\xad®¯°±²³´µ¶·¸¹÷»¼½¾\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD‗'
-    '\u05d0\u05d1\u05d2\u05d3\u05d4\u05d5\u05d6\u05d7'
-    '\u05d8\u05d9\u05da\u05db\u05dc\u05dd\u05de\u05df'
-    '\u05e0\u05e1\u05e2\u05e3\u05e4\u05e5\u05e6\u05e7'
-    '\u05e8\u05e9\u05ea\uFFFD\uFFFD\u200e\u200f\uFFFD';
-
-/// Characters in ISO-8859-9 above the ASCII and top control characters.
-const _top8859_9 = '\xa0¡¢£¤¥¦§¨©ª«¬\xad®¯°±²³´µ¶·¸¹º»¼½¾¿'
-    'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞß'
-    'àáâãäåæçèéêëìíîïğñòóôõö÷øùúûüışÿ';
-
-/// Characters in ISO-8859-10 above the ASCII and top control characters.
-const _top8859_10 = '\xa0ĄĒĢĪĨĶ§ĻĐŠŦŽ\xadŪŊ°ąēģīĩķ·ļđšŧž―ūŋ'
-    'ĀÁÂÃÄÅÆĮČÉĘËĖÍÎÏÐŅŌÓÔÕÖŨØŲÚÛÜÝÞß'
-    'āáâãäåæįčéęëėíîïðņōóôõöũøųúûüýþĸ';
-
-/// Characters in ISO-8859-11 above the ASCII and top control characters.
-const _top8859_11 = '\xa0กขฃคฅฆงจฉชซฌญฎฏฐฑฒณดตถทธนบปผฝพฟ'
-    'ภมยรฤลฦวศษสหฬอฮฯะัาำิีึืฺุู\uFFFD\uFFFD\uFFFD\uFFFD฿'
-    'เแโใไๅๆ็่้๊๋์ํ๎๏๐๑๒๓๔๕๖๗๘๙๚๛\uFFFD\uFFFD\uFFFD\uFFFD';
-
-/// Characters in ISO-8859-13 above the ASCII and top control characters.
-const _top8859_13 = '\xa0”¢£¤„¦§Ø©Ŗ«¬\xad®Æ°±²³“µ¶·ø¹ŗ»¼½¾æ'
-    'ĄĮĀĆÄÅĘĒČÉŹĖĢĶĪĻŠŃŅÓŌÕÖ×ŲŁŚŪÜŻŽß'
-    'ąįāćäåęēčéźėģķīļšńņóōõö÷ųłśūüżž’';
-
-/// Characters in ISO-8859-14 above the ASCII and top control characters.
-const _top8859_14 = '\xa0Ḃḃ£ĊċḊ§Ẁ©ẂḋỲ\xad®ŸḞḟĠġṀṁ¶ṖẁṗẃṠỳẄẅṡ'
-    'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏŴÑÒÓÔÕÖṪØÙÚÛÜÝŶß'
-    'àáâãäåæçèéêëìíîïŵñòóôõöṫøùúûüýŷÿ';
-
-/// Characters in ISO-8859-15 above the ASCII and top control characters.
-const _top8859_15 = '\xa0¡¢£€¥Š§š©ª«¬\xad®¯°±²³Žµ¶·ž¹º»ŒœŸ¿'
-    'ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞß'
-    'àáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ';
-
-/// Characters in ISO-8859-16 above the ASCII and top control characters.
-const _top8859_16 = '\xa0ĄąŁ€„Š§š©Ș«Ź\xadźŻ°±ČłŽ”¶·žčș»ŒœŸż'
-    'ÀÁÂĂÄĆÆÇÈÉÊËÌÍÎÏĐŃÒÓÔŐÖŚŰÙÚÛÜĘȚß'
-    'àáâăäćæçèéêëìíîïđńòóôőöśűùúûüęțÿ';
-
-const _top8859Controls = '\x80\x81\x82\x83\x84\x85\x86\x87\x88\x89\x8a\x8b\x8c'
-    '\x8d\x8e\x8f\x90\x91\x92\x93\x94\x95\x96\x97\x98\x99\x9a\x9b\x9c\x9d\x9e'
-    '\x9f\xa0';
-
-const _noControls = '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD'
-    '\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD';
-
-/// ASCII characters without control characters. Shared by many code pages.
-// ignore: missing_whitespace_between_adjacent_strings
-const _ascii = '\x00\x01\x02\x03\x04\x05\x06\x07\x08\x09\x0a\x0b\x0c\x0d\x0e'
-    '\x0f\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a\x1b\x1c\x1d\x1e\x1f\x20'
-    r"""!"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcd"""
-    'efghijklmnopqrstuvwxyz{|}~\x7f';
+///
+/// This is the authoritative mapping between ISO-8859-16 and
+/// Unicode text, as [specified by the Unicode Consortium](
+/// https://unicode.org/Public/MAPPINGS/ISO8859/8859-16.TXT).
+final CodePage latin10 = CodePage._bmp('latin-10', iso8859_16);
 
 /// A mapping between bytes and characters.
 ///
@@ -217,7 +159,7 @@ class CodePage extends Encoding {
   ///
   /// If a code page does not have a defined character for a particular
   /// byte, it should return the Unicode invalid character (U+FFFD)
-  /// instad.
+  /// instead.
   int operator [](int byte) => decoder._char(byte);
 
   /// Encodes [input] using `encoder.convert`.
@@ -244,10 +186,11 @@ abstract class CodePageDecoder implements Converter<List<int>, String> {
   /// The code page assigns one character to each byte.
   /// Values in [input] must be bytes (integers in the range 0..255).
   ///
-  /// If [allowInvalid] is true, non-byte values in [input],
+  /// If [allowInvalid] is `true`, non-byte values in [input],
   /// or byte values not defined as a character in the code page,
   /// are emitted as U+FFFD (the Unicode invalid character).
-  /// If not true, the bytes must be calid and defined characters.
+  /// If [allowInvalid] is `false`, the default,
+  /// the input values must be valid bytes with a defined mapping.
   @override
   String convert(List<int> input, {bool allowInvalid = false});
 

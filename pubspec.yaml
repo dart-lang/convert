@@ -1,5 +1,5 @@
 name: convert
-version: 4.0.0-dev
+version: 3.2.0-dev
 description: >-
   Utilities for converting between data representations.
   Provides a number of Sink, Codec, Decoder, and Encoder types.
@@ -15,4 +15,5 @@ dev_dependencies:
   benchmark_harness: ^2.2.0
   dart_flutter_team_lints: ^1.0.0
   path: ^1.8.0
+  http: ^1.1.0
   test: ^1.17.0

@@ -9,12 +9,12 @@
 //
 // Updates the definitions in `lib/src/codepages/unicode_iso8859.g.dart`,
 // between the `// -- BEGIN GENERATED CONTENT --` and
-// `// -- END GENERATED CONTENT --` markers, or inserts such a block at the
-// end of the file.
+// `// -- END GENERATED CONTENT --` markers,
+// or inserts such a block at the end of the file.
 
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 
 /// The directory of this script. Used as base for other relative paths.
@@ -52,9 +52,16 @@ void main(List<String> args) async {
   var tableFileContent = tableFile.readAsStringSync();
 
   // Generate new declarations.
+  // Fetches table files, parses them, and creates new constant declarations.
   var declarations = await generateTables();
 
   // Find generated content markers in existing file.
+  //
+  // Matches everything from [generatedContentLead] to the end of the
+  // line containing [generatedContentTail].
+  // Has a submatch for the lines after a first "// Generated" comment
+  // line (which contains the generated date), to be checked against
+  // newly generated content, to see if there is any change.
   var generatedContentMatch = RegExp('$generatedContentLead'
           r'.*\r?\n(?:// Generated.*\r?\n)?([^]*?\r?\n)'
           '$generatedContentTail'
@@ -63,14 +70,21 @@ void main(List<String> args) async {
       .firstMatch(tableFileContent)!;
 
   var existingDeclarations = generatedContentMatch[1] ?? '';
+  // Whether the existing content contains windows line endings.
+  var windowsLineEndings = existingDeclarations.contains('\r\n');
+  if (windowsLineEndings) {
+    existingDeclarations = existingDeclarations.replaceAll('\r\n', '\n');
+  }
   if (declarations == existingDeclarations) {
-    // If no change, no write.
+    // If no change, don't write the file, to retain the prior generation
+    // date and time.
     stderr.writeln('No changes');
     return;
   }
-  var replacement = replacementString(declarations);
-  // Guess file's newline, change to '\r\n' if necessary.
-  if (Platform.isWindows && tableFileContent.contains('\r\n')) {
+  // Add markers before and after the declarations.
+  var replacement = wrapInGeneratedContentMarkers(declarations);
+  // Convert to the detected line endings of the input, if necessary.
+  if (windowsLineEndings) {
     replacement = replacement.replaceAll('\n', '\r\n');
   }
   tableFileContent = tableFileContent.replaceRange(
@@ -82,7 +96,7 @@ void main(List<String> args) async {
 /// Shared HTTP client used by [fetchTable], initialized if needed.
 ///
 /// Closed by [generateTables] when done fetching.
-HttpClient? httpClient;
+http.Client? httpClient;
 
 /// Fetches table file content, parses and builds constant string declarations.
 Future<String> generateTables() async {
@@ -109,88 +123,42 @@ Future<String> generateTables() async {
 /// Generates the constant string for a single ISO-8859 code page.
 Future<void> generateTableFor(StringSink buffer, int isoNumber) async {
   var (uri, content) = await fetchTable(isoNumber);
+
+  var versionMatch = tableVersionRE.firstMatch(content);
+  if (versionMatch == null) {
+    throw FormatException(
+        'Missing header fields, table version and format', content);
+  }
+  if (versionMatch[2] != expectedTableFormat) {
+    throw FormatException('Unexpected format: $versionMatch[2]', content);
+  }
+  var version = versionMatch[1];
+
   var text = parseTable(isoNumber, content);
   buffer
     ..writeln()
     ..writeln('// Characters of ISO-8859-$isoNumber.')
+    ..writeln('// Mapping table version: $version')
     ..write('const iso8859_$isoNumber = // From $uri');
   // Write 8 chars per line, as Unicode escapes.
+  const charsPerLine = 8;
   for (var i = 0; i < text.length;) {
-    var charsOnLine = nextRangeLength(text, i, 74);
-    buffer.write('\n    \'');
-    for (var c = 0; c < charsOnLine; c++) {
-      writeChar(buffer, text.codeUnitAt(i + c));
+    buffer.write(
+        '\n    /* 0x${hex(i, 2)}..0x${hex(i + charsPerLine - 1, 2)} */ \'');
+    for (var c = 0; c < charsPerLine; c++) {
+      buffer
+        ..write(r'\u')
+        ..write(hex(text.codeUnitAt(i + c), 4));
     }
-    i += charsOnLine;
     buffer.write('\'');
+    i += charsPerLine;
   }
   buffer.writeln(';');
 }
 
-// Code units that are encoded specially in the generated literals.
-const specialChars = {
-  0x08: r'\b',
-  0x09: r'\t',
-  0x0a: r'\n',
-  0x0b: r'\v',
-  0x0c: r'\f',
-  0x0d: r'\r',
-  0x24: r'\$',
-  0x27: r"\'",
-  0x7f: r'\x7F',
-  0x5c: r'\\',
-};
-
-/// Write a single code unit into a string literal.
-///
-/// Writes all code units above 0xFF as `\uHHHH`.
-/// Writes all printable ASCII codes as themselves,
-/// possibly escaped.
-/// Writes characters that have escapes, like `\n`, as those.
-/// The remaining code units in the 0x00..0xFF range are written as `\xHH`
-void writeChar(StringSink buffer, int charCode) {
-  if (specialChars[charCode] case var s?) {
-    buffer.write(s);
-  } else if (charCode >= 0x20 && charCode < 0x7f) {
-    buffer.writeCharCode(charCode);
-  } else if (charCode <= 0xFF) {
-    buffer
-      ..write(charCode < 0x10 ? r'\x0' : r'\x')
-      ..write(charCode.toRadixString(16).toUpperCase());
-  } else {
-    buffer
-      ..write(r'\u')
-      ..write(charCode.toRadixString(16).toUpperCase().padLeft(4, '0'));
-  }
-}
-
-/// Find the number of characters that fits in a single-line string literal.
-///
-/// Finds the largest number of characters starting from [from],
-/// which is a power of 2, and where the characters representation,
-/// as written by [writeChar], fits within [maxLength] characters.
-int nextRangeLength(String text, int from, int maxLength) {
-  var best = 8;
-  assert(best * 6 <= maxLength);
-  var length = 0;
-  var count = 0;
-  for (var i = from; i < text.length; i++) {
-    var c = text.codeUnitAt(i);
-    length += specialChars[c]?.length ??
-        (c < 0x20 // Low-ACSII control code: \xHH
-            ? 4
-            : c < 0x7f // Other visible ASCII: itself.
-                ? 1
-                : c < 0x100 // 0x7f..0xff: \xHH
-                    ? 4
-                    : 6); // Above: /uHHHH.
-    count += 1;
-    if (length > maxLength) return best;
-    var isPowerOf2 = count & (count - 1) == 0;
-    if (isPowerOf2 && count > best) best = count;
-  }
-  return count; // Rest of string.
-}
+/// Formats positive integer as [digits]-digit base 16, left-padded with `0`.
+String hex(int number, int digits) =>
+    number.toRadixString(16).toUpperCase().padLeft(digits, '0');
 
 /// Fetches table file content for ISO-8859-*n*.
 ///
@@ -224,6 +192,17 @@ Future<(Uri, String)> fetchTable(int n) async {
 final tableCharMappingRE =
     RegExp(multiLine: true, r'^0x([\dA-F]{2})\t0x([\dA-F]{4})(?:\t#.*)?$');
 
+/// Pattern matching the table version and format headers in the table format.
+final tableVersionRE = RegExp(
+    multiLine: true,
+    r'^#\s+Table version:\s+(\d+\.\d+)\s*'
+    r'^#\s+Table format:\s*(\w.*\w)\s*$');
+
+/// The format of the tables currently supported.
+///
+/// Bail out if something else is encountered.
+const expectedTableFormat = 'Format A';
+
 /// Parses table content.
 ///
 /// Assumed to start with the file name, '# 8859-n.TXT`.
@@ -241,7 +220,6 @@ String parseTable(int expectedNumber, String table) {
   if (!table.startsWith('# 8859-$expectedNumber.TXT')) {
     throw FormatException('Not table for ISO-8859-$expectedNumber', table, 0);
   }
-
   const replacementChar = 0xFFFD;
   var encoding = List<int>.filled(256, replacementChar);
   var count = 0;
@@ -271,14 +249,14 @@ String parseTable(int expectedNumber, String table) {
 ///
 /// Nothing fancy accepted, must return [HttpStatus.ok].
 Future<String> httpGetString(Uri uri) async {
-  var client = httpClient ??= HttpClient();
-  var request = await client.getUrl(uri);
-  var response = await request.close();
+  var client = httpClient ??= http.Client();
+  var response = await client.get(uri);
   if (response.statusCode != HttpStatus.ok) {
-    throw HttpException('Cannot fetch (${response.statusCode})', uri: uri);
+    throw HttpException(
+        'Cannot fetch (${response.reasonPhrase ?? response.statusCode})',
+        uri: uri);
   }
-  // ignore: unnecessary_await_in_return
-  return await response.transform(const Utf8Decoder()).join();
+  return response.body;
 }
 
 /// Builds the complete replacement for the generated section.
@@ -287,7 +265,7 @@ Future<String> httpGetString(Uri uri) async {
 /// in new generated content markers and a "generated when and by"
 /// comment, which can replace the existing generated content section
 /// of the table file.
-String replacementString(String declarations) => '''
+String wrapInGeneratedContentMarkers(String declarations) => '''
 $generatedContentLead
 // Generated (${nowTime()}) by tools/update_unicode_iso8859_tables.dart
 $declarations$generatedContentTail

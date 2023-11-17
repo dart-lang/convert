@@ -11,10 +11,13 @@
 // between the `// -- BEGIN GENERATED CONTENT --` and
 // `// -- END GENERATED CONTENT --` markers,
 // or inserts such a block at the end of the file.
+//
+// Specify the directory containing the files, with their original file name,
+// as the first argument to this script, or create and download them to the
+// default directory `../.dart_tool/unicode_iso8859_tables/`.
 
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
 
 /// The directory of this script. Used as base for other relative paths.
@@ -24,12 +27,11 @@ final String scriptDir = p.dirname(Platform.script.toFilePath());
 final String tableFilePath = p.join(
     scriptDir, '..', 'lib', 'src', 'codepages', 'unicode_iso8859.g.dart');
 
-/// The base URI for the Unicode Consortium table files.
-final baseUri = Uri.parse('https://unicode.org/Public/MAPPINGS/ISO8859/');
+final String tableDirectoryDefaultPath =
+    p.join(scriptDir, '..', '.dart_tool', 'unicode_iso8859_tables');
 
-/// Path to a cache directory used to cache downloaded table files.
-final cachePath = p.join(
-    scriptDir, '..', '.dart_tool', 'iso8859_tool_http_cache', 'unicode.org');
+/// The base URI for the Unicode Consortium table files.
+const baseUri = 'https://unicode.org/Public/MAPPINGS/ISO8859/';
 
 /// Start-marker for generated content in the [tableFilePath] file.
 ///
@@ -44,16 +46,35 @@ const generatedContentTail = '// -- END GENERATED CONTENT --';
 
 // Rebuild the tables used for ISO-8859 code pages.
 void main(List<String> args) async {
+  Directory tablePath;
+  if (args.isNotEmpty) {
+    tablePath = Directory(args.first);
+  } else {
+    tablePath = Directory(tableDirectoryDefaultPath);
+  }
+  if (!tablePath.existsSync()) {
+    var scriptName = p.basename(Platform.script.toFilePath());
+
+    stderr
+      ..writeln('Usage: dart $scriptName <path-to-downloaded-tables>')
+      ..writeln('')
+      ..writeln('  The path should be to a directory containing the files')
+      ..writeln('  of $baseUri');
+    exit(1);
+  }
+
   var tableFile = File(tableFilePath);
   if (!tableFile.existsSync()) {
-    stderr.writeln('Cannot find file to generate into: $tableFile');
-    stderr.writeln('Create file with proper copyright header and run again.');
+    stderr
+      ..writeln('Cannot find file to generate into: $tableFile')
+      ..writeln('Create file with proper copyright header and run again.');
+    exit(1);
   }
   var tableFileContent = tableFile.readAsStringSync();
 
   // Generate new declarations.
-  // Fetches table files, parses them, and creates new constant declarations.
-  var declarations = await generateTables();
+  // Reads table files, parses them, and creates new constant declarations.
+  var declarations = await generateTables(tablePath);
 
   // Find generated content markers in existing file.
   //
@@ -93,36 +114,30 @@ void main(List<String> args) async {
   print('Written: $tableFile');
 }
 
-/// Shared HTTP client used by [fetchTable], initialized if needed.
-///
-/// Closed by [generateTables] when done fetching.
-http.Client? httpClient;
-
 /// Fetches table file content, parses and builds constant string declarations.
-Future<String> generateTables() async {
-  // Used for caching fetched files.
-  // Useful if running the script multiple times.
-  var cacheDir = Directory(cachePath);
-  if (!cacheDir.existsSync()) cacheDir.createSync(recursive: true);
-
+Future<String> generateTables(Directory tablePath) async {
   var buffer = StringBuffer();
-  // For each ISO-8859-n, n > 1, fetch the table,
+  // For each ISO-8859-n, n > 1, read the table,
   // and generate a constant string corresponding to the mapping
   // into `buffer`.
   // There is no ISO-8859-12. Don't include ISO-8859-1,
   // since it's already included in `dart:convert`.
   for (var i = 2; i <= 16; i++) {
     if (i == 12) continue; // No ISO-8859-12.
-    await generateTableFor(buffer, i);
+    generateTableFor(buffer, tablePath, i);
   }
-
-  httpClient?.close();
   return buffer.toString();
 }
 
 /// Generates the constant string for a single ISO-8859 code page.
-Future<void> generateTableFor(StringSink buffer, int isoNumber) async {
-  var (uri, content) = await fetchTable(isoNumber);
+void generateTableFor(StringSink buffer, Directory tablePath, int isoNumber) {
+  var fileName = "8859-$isoNumber.TXT";
+  var tableFile = File(p.join(tablePath.path, fileName));
+  if (!tableFile.existsSync()) {
+    stderr.writeln('Cannot read required table file: ${tableFile.path}');
+    exit(1);
+  }
+  var content = tableFile.readAsStringSync();
 
   var versionMatch = tableVersionRE.firstMatch(content);
   if (versionMatch == null) {
@@ -133,13 +148,12 @@ Future<void> generateTableFor(StringSink buffer, int isoNumber) async {
     throw FormatException('Unexpected format: $versionMatch[2]', content);
   }
   var version = versionMatch[1];
-
   var text = parseTable(isoNumber, content);
   buffer
     ..writeln()
     ..writeln('// Characters of ISO-8859-$isoNumber.')
     ..writeln('// Mapping table version: $version')
-    ..write('const iso8859_$isoNumber = // From $uri');
+    ..write('const iso8859_$isoNumber = // From $baseUri$fileName');
   // Write 8 chars per line, as Unicode escapes.
   const charsPerLine = 8;
   for (var i = 0; i < text.length;) {
@@ -159,25 +173,6 @@ Future<void> generateTableFor(StringSink buffer, int isoNumber) async {
 /// Formats positive integer as [digits]-digit base 16, left-padded with `0`.
 String hex(int number, int digits) =>
     number.toRadixString(16).toUpperCase().padLeft(digits, '0');
-
-/// Fetches table file content for ISO-8859-*n*.
-///
-/// Either from cache, or using an HTTP request.
-Future<(Uri, String)> fetchTable(int n) async {
-  var fileName = '8859-$n.TXT';
-  var uri = baseUri.resolve(fileName);
-  var filePath = p.join(cachePath, fileName);
-  var file = File(filePath);
-
-  String content;
-  if (file.existsSync()) {
-    content = file.readAsStringSync();
-  } else {
-    content = await httpGetString(uri);
-    file.writeAsStringSync(content);
-  }
-  return (uri, content);
-}
 
 /// Pattern matching a table file line for a character mapping.
 ///
@@ -236,27 +231,20 @@ String parseTable(int expectedNumber, String table) {
     encoding[byte] = char;
     count++;
   }
+  for (var i = 0; i < 160; i++) {
+    if (encoding[i] != i) {
+      stderr.writeln(
+          'Info: ISO-8859-$expectedNumber not a superset of ASCII+Controls.\n'
+          '  First difference: 0x${hex(i, 2)} = U+${hex(encoding[i], 4)}');
+    }
+  }
   if (count != 256) {
     stderr.writeln(
-        'ISO-8859-$expectedNumber mapping not complete, no mapping for '
+        'Info: ISO-8859-$expectedNumber mapping not complete, no mapping for '
         '0x${encoding.indexOf(replacementChar).toRadixString(16)}'
         '${count < 255 ? ' and ${255 - count} other' : ''}');
   }
   return String.fromCharCodes(encoding);
-}
-
-/// Fetches text response for an HTTP request for [uri].
-///
-/// Nothing fancy accepted, must return [HttpStatus.ok].
-Future<String> httpGetString(Uri uri) async {
-  var client = httpClient ??= http.Client();
-  var response = await client.get(uri);
-  if (response.statusCode != HttpStatus.ok) {
-    throw HttpException(
-        'Cannot fetch (${response.reasonPhrase ?? response.statusCode})',
-        uri: uri);
-  }
-  return response.body;
 }
 
 /// Builds the complete replacement for the generated section.

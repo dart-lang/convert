@@ -28,14 +28,15 @@ void main() {
     latinArabic
   ]) {
     group('${cp.name} codepage', () {
-      test('ascii compatible', () {
-        for (var byte = 0x20; byte < 0x7f; byte++) {
+      test('ascii + control characters compatible', () {
+        for (var byte = 0x00; byte < 0x9f; byte++) {
           expect(cp[byte], byte);
         }
       });
 
       test('bidirectional mapping', () {
         // Maps both directions.
+        // Implies no two bytes decode to the same character.
         for (var byte = 0; byte < 256; byte++) {
           var char = cp[byte];
           if (char != 0xFFFD) {
@@ -84,12 +85,16 @@ void main() {
 
   test('latin-3 roundtrip', () {
     // Data from http://www.columbia.edu/kermit/latin3.html
-    var latin2text = '\xa0Ħ˘£¤\u{FFFD}Ĥ§¨İŞĞĴ\xad\u{FFFD}Ż°ħ²³´µĥ·¸ışğĵ½'
+    var latin3text = '\xa0Ħ˘£¤\u{FFFD}Ĥ§¨İŞĞĴ\xad\u{FFFD}Ż°ħ²³´µĥ·¸ışğĵ½'
         '\u{FFFD}żÀÁÂ\u{FFFD}ÄĊĈÇÈÉÊËÌÍÎÏ\u{FFFD}ÑÒÓÔĠÖ×ĜÙÚÛÜŬŜßàáâ'
         '\u{FFFD}äċĉçèéêëìíîï\u{FFFD}ñòóôġö÷ĝùúûüŭŝ˙';
-    var encoded = latin3.encode(latin2text, invalidCharacter: 0);
+    assert(!latin3text.codeUnits.contains(0xa5));
+    // The U+00A5 character is not in the text, and the byte is not part of the
+    // code page, so using it to encode U+FFFD gives the original text back
+    // when decoded.
+    var encoded = latin3.encode(latin3text, invalidCharacter: 0xA5);
     var decoded = latin3.decode(encoded, allowInvalid: true);
-    expect(decoded, latin2text);
+    expect(decoded, latin3text);
   });
 
   group('Custom code page', () {

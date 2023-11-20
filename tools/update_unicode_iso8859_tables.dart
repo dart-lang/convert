@@ -57,7 +57,7 @@ void main(List<String> args) async {
 
     stderr
       ..writeln('Usage: dart $scriptName <path-to-downloaded-tables>')
-      ..writeln('')
+      ..writeln()
       ..writeln('  The path should be to a directory containing the files')
       ..writeln('  of $baseUri');
     exit(1);
@@ -131,7 +131,7 @@ Future<String> generateTables(Directory tablePath) async {
 
 /// Generates the constant string for a single ISO-8859 code page.
 void generateTableFor(StringSink buffer, Directory tablePath, int isoNumber) {
-  var fileName = "8859-$isoNumber.TXT";
+  var fileName = '8859-$isoNumber.TXT';
   var tableFile = File(p.join(tablePath.path, fileName));
   if (!tableFile.existsSync()) {
     stderr.writeln('Cannot read required table file: ${tableFile.path}');

@@ -1,3 +1,6 @@
+> [!IMPORTANT]  
+> This repo has moved to https://github.com/dart-lang/core/tree/main/pkgs/convert
+
 [![Dart CI](https://github.com/dart-lang/convert/actions/workflows/test-package.yml/badge.svg)](https://github.com/dart-lang/convert/actions/workflows/test-package.yml)
 [![pub package](https://img.shields.io/pub/v/convert.svg)](https://pub.dev/packages/convert)
 [![package publisher](https://img.shields.io/pub/publisher/convert.svg)](https://pub.dev/packages/convert/publisher)
